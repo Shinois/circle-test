@@ -1,0 +1,10 @@
+.git/
+node_modules/
+test/
+coverage/
+.*
+Dockerfile
+LICENSE
+README.md
+sonar-project.properties
+.nyc_output/

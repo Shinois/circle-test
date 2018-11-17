@@ -1,0 +1,17 @@
+{
+  "extends": "airbnb",
+  "env": {
+    "node":true,
+    "mocha":true,
+    "es6": true,
+    "mongo":true
+  },
+  "rules": {
+    "comma-dangle": 0,
+    "max-len": ["error", {"code": 120, "ignoreComments": true, "ignoreUrls": true}],
+    "no-restricted-syntax": 0,
+    "import/no-extraneous-dependencies": ["error", {"peerDependencies": false}],
+    "no-underscore-dangle": ["error", { "allow": ["_id"] }],
+    "class-methods-use-this": "off"
+  }
+}
