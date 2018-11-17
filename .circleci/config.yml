@@ -68,6 +68,6 @@ jobs:
             unzip sonar-scanner-*
             cd sonar-scanner/bin
             sudo chmod 777 sonar-scanner
-            bash sonar-scanner
+            @sonar-scanner/bin/sonar-scanner
 
 
