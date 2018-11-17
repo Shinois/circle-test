@@ -68,7 +68,6 @@ jobs:
             wget https://s3.eu-central-1.amazonaws.com/dialonce-cdn/utilities/sonar-scanner-cli.zip
             unzip sonar-scanner-*
 
-            sudo echo deb http://http.debian.net/debian jessie-backports main >> /etc/apt/sources.list
             sudo apt-get update && apt-get install openjdk-8-jdk
             sudo update-alternatives --config java
       - run:
