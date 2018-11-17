@@ -22,21 +22,21 @@ jobs:
           name: install make
           command: sudo apt-get update && sudo apt-get -y install gcc make
 
-      # # Download and cache dependencies
-      # - restore_cache:
-      #     keys:
-      #     - v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
-      #     - v1-dependencies-{{ .Branch }}
-      #     # fallback to using the latest cache if no exact match is found
-      #     - v1-dependencies
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+          - v1-dependencies-{{ .Branch }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies
       # - run:
       #     name: Install dependencies
       #     command: make deps
 
-      # - save_cache:
-      #     paths:
-      #     - node_modules
-      #     key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+      - save_cache:
+          paths:
+          - node_modules
+          key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
 
       # - run:
       #     name: Init project
@@ -58,6 +58,7 @@ jobs:
       - run:
           name: Download sonar
           command: |
+            java -version
             echo $SONAR_URL
             sed '/sonar.projectVersion/d' ./sonar-project.properties > tmp && mv tmp sonar-project.properties
             echo sonar.projectVersion=`cat package.json | python -c "import json,sys;obj=json.load(sys.stdin);print obj['version'];"` >> sonar-project.properties
