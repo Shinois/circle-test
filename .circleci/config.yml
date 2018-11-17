@@ -58,6 +58,7 @@ jobs:
       - run:
           name: Download sonar
           command: |
+            echo $SONAR_URL
             sed '/sonar.projectVersion/d' ./sonar-project.properties > tmp && mv tmp sonar-project.properties
             echo sonar.projectVersion=`cat package.json | python -c "import json,sys;obj=json.load(sys.stdin);print obj['version'];"` >> sonar-project.properties
             wget https://s3.eu-central-1.amazonaws.com/dialonce-cdn/utilities/sonar-scanner-cli.zip
@@ -65,5 +66,7 @@ jobs:
       - run:
           name: Sonar analysis
           command: |
-            @sonar-scanner/bin/sonar-scanner
+            if [ -z "$CIRCLE_PULL_REQUEST" ]; then
+              echo okok
+            fi
 
