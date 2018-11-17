@@ -8,7 +8,7 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/node:8.9
-      - image: circleci/openjdk:8-jdk-node-browsers-legacy
+      - image: circleci/openjdk:8-jdk-browsers
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -22,13 +22,6 @@ jobs:
           name: install make
           command: |
             sudo apt-get update && sudo apt-get -y install gcc make
-            sudo apt-get install software-properties-common
-
-            sudo apt-get update
-            sudo apt-get install openjdk-8-jdk
-
-          environment:
-            JAVA_HOME: /usr/lib/jvm/java-9-oracle
 
       # Download and cache dependencies
       - restore_cache:
@@ -70,3 +63,4 @@ jobs:
             echo sonar.projectVersion=`cat package.json | python -c "import json,sys;obj=json.load(sys.stdin);print obj['version'];"` >> sonar-project.properties
             wget https://s3.eu-central-1.amazonaws.com/dialonce-cdn/utilities/sonar-scanner-cli.zip
             unzip sonar-scanner-*
+            bash sonar-scanner/bin/sonar-scanner
