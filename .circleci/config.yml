@@ -8,6 +8,7 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/node:8.9
+      - image: circleci/openjdk:8-jdk
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -21,34 +22,50 @@ jobs:
           name: install make
           command: sudo apt-get update && sudo apt-get -y install gcc make
 
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
-          - v1-dependencies-{{ .Branch }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies
-      - run:
-          name: Install dependencies
-          command: make deps
+      # # Download and cache dependencies
+      # - restore_cache:
+      #     keys:
+      #     - v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+      #     - v1-dependencies-{{ .Branch }}
+      #     # fallback to using the latest cache if no exact match is found
+      #     - v1-dependencies
+      # - run:
+      #     name: Install dependencies
+      #     command: make deps
 
-      - save_cache:
-          paths:
-          - node_modules
-          key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+      # - save_cache:
+      #     paths:
+      #     - node_modules
+      #     key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
 
-      - run:
-          name: Init project
-          command: make init
+      # - run:
+      #     name: Init project
+      #     command: make init
 
-      - run:
-          name: Linting
-          command: make lint
+      # - run:
+      #     name: Linting
+      #     command: make lint
 
-      - run:
-          name: Testing
-          command: make cover
+      # - run:
+      #     name: Testing
+      #     command: make cover
 
       # - run:
       #     name: Sonar analysis
       #     command: sudo make sonar
+      - run:
+          name: java
+          command: java -version
+
+      - run:
+          name: Download sonar
+          command: |
+            sed '/sonar.projectVersion/d' ./sonar-project.properties > tmp && mv tmp sonar-project.properties
+            echo sonar.projectVersion=`cat package.json | python -c "import json,sys;obj=json.load(sys.stdin);print obj['version'];"` >> sonar-project.properties
+            wget https://s3.eu-central-1.amazonaws.com/dialonce-cdn/utilities/sonar-scanner-cli.zip
+            unzip sonar-scanner-*
+      - run:
+          name: Sonar analysis
+          command: |
+            @sonar-scanner/bin/sonar-scanner
+
