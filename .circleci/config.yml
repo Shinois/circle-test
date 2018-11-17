@@ -62,4 +62,5 @@ jobs:
             sudo apt-get update && sudo apt-get upgrade
             sudo apt-get install default-jdk
             java -version
+            make sonar
 
