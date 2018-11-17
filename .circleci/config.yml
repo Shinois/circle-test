@@ -69,7 +69,6 @@ jobs:
             unzip sonar-scanner-*
 
             sudo apt-get update && apt-get install openjdk-8-jdk
-            sudo update-alternatives --config java
       - run:
           name: Sonar analysis
           command: |
