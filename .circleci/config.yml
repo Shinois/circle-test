@@ -60,7 +60,11 @@ jobs:
           name: Download sonar
           command: |
             sudo apt-get update && sudo apt-get upgrade
-            sudo apt-get install default-jdk
+            sudo apt-get install software-properties-common
+            sudo add-apt-repository ppa:webupd8team/java
+            sudo apt-get update
+            sudo apt-get install oracle-java8-installer
+
 
             sed '/sonar.projectVersion/d' ./sonar-project.properties > tmp && mv tmp sonar-project.properties
             echo sonar.projectVersion=`cat package.json | python -c "import json,sys;obj=json.load(sys.stdin);print obj['version'];"` >> sonar-project.properties
