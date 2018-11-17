@@ -67,6 +67,6 @@ jobs:
           name: Sonar analysis
           command: |
             if [ -z "$CIRCLE_PULL_REQUEST" ]; then
-              echo okok
+              echo "Is set !!"
             fi
 
