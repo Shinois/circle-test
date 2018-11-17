@@ -53,9 +53,7 @@ jobs:
       # - run:
       #     name: Sonar analysis
       #     command: sudo make sonar
-      - run:
-          name: java
-          command: java -version
+
 
       - run:
           name: Download sonar
