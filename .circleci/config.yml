@@ -61,8 +61,7 @@ jobs:
           command: |
             sudo apt-get update && sudo apt-get upgrade
             sudo apt-get install software-properties-common
-            sudo echo deb http://http.debian.net/debian jessie-backports main >> /etc/apt/sources.list
-            sudo add-apt-repository -y ppa:webupd8team/java
+            sudo add-apt-repository --no-cache --pull -y ppa:webupd8team/java
             sudo apt-get update
             sudo apt-get install oracle-java8-installer
 
