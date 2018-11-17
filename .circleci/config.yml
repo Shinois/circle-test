@@ -65,10 +65,14 @@ jobs:
             # sudo apt-get install oracle-java10-installer
             # sudo apt-get install oracle-java10-set-default
 
-            sudo apt-get install python-software-properties
             sudo add-apt-repository -y ppa:webupd8team/java
             sudo apt-get update
             sudo apt-get install oracle-java8-installer
+            sudo apt-get install oracle-java8-set-default
+            cat >> /etc/environment << EOL
+            JAVA_HOME=/usr/lib/jvm/java-8-oracle
+            JRE_HOME=/usr/lib/jvm/java-8-oracle/jre
+            EOL
 
             sed '/sonar.projectVersion/d' ./sonar-project.properties > tmp && mv tmp sonar-project.properties
             echo sonar.projectVersion=`cat package.json | python -c "import json,sys;obj=json.load(sys.stdin);print obj['version'];"` >> sonar-project.properties
