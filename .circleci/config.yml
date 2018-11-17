@@ -63,4 +63,7 @@ jobs:
             echo sonar.projectVersion=`cat package.json | python -c "import json,sys;obj=json.load(sys.stdin);print obj['version'];"` >> sonar-project.properties
             wget https://s3.eu-central-1.amazonaws.com/dialonce-cdn/utilities/sonar-scanner-cli.zip
             unzip sonar-scanner-*
-            bash sonar-scanner/bin/sonar-scanner
+            cd sonar-scanner/bin
+            sudo chmod 777 sonar-scanner
+            sudo ./sonar-scanner
+
