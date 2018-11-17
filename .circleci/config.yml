@@ -49,6 +49,6 @@ jobs:
           name: Testing
           command: make cover
 
-      - run:
-          name: Sonar analysis
-          command: sudo make sonar
+      # - run:
+      #     name: Sonar analysis
+      #     command: sudo make sonar
