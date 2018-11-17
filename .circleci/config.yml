@@ -23,6 +23,9 @@ jobs:
           command: |
             sudo apt-get update && sudo apt-get -y install gcc make
             sudo apt-get install software-properties-common
+            sudo add-apt-repository ppa:openjdk-r/ppa
+            sudo apt-get update
+            sudo apt-get install openjdk-8-jdk
 
           environment:
             JAVA_HOME: /usr/lib/jvm/java-9-oracle
@@ -67,11 +70,3 @@ jobs:
             echo sonar.projectVersion=`cat package.json | python -c "import json,sys;obj=json.load(sys.stdin);print obj['version'];"` >> sonar-project.properties
             wget https://s3.eu-central-1.amazonaws.com/dialonce-cdn/utilities/sonar-scanner-cli.zip
             unzip sonar-scanner-*
-
-      - run:
-          name: java
-          command: |
-            sudo add-apt-repository ppa:openjdk-r/ppa
-            sudo apt-get update
-            sudo apt-get install openjdk-8-jdk
-
