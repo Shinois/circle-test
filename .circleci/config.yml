@@ -20,7 +20,7 @@ jobs:
       - run:
           name: Testing
           command: make cover
-  sonar:
+  test:
     docker:
       - image: circleci/openjdk:8-jdk-browsers
     steps:
@@ -38,4 +38,6 @@ workflows:
   build_and_test:
     jobs:
       - build
-      - sonar
+      - test:
+          requires:
+            - build
