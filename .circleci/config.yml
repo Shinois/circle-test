@@ -21,6 +21,7 @@ jobs:
           name: Testing
           command: make cover
   sonar:
+    requires: build
     docker:
       - image: circleci/openjdk:8-jdk-browsers
     steps:
