@@ -60,6 +60,9 @@ jobs:
       - run:
           name: Download sonar
           command: |
+            export https_proxy=http://myproxy.domain.net:8080/
+            sudo -E add-apt-repository ppa:webupd8team/java
+
             sudo apt install -t jessie-backports  openjdk-8-jre-headless ca-certificates-java
             java -version
 
