@@ -21,12 +21,12 @@ jobs:
           name: Testing
           command: make cover
   test:
-    requires: build
     docker:
       - image: circleci/openjdk:8-jdk-browsers
     steps:
       - checkout
       - run:
+          requires: build
           name: sonar
           command: |
             sed '/sonar.projectVersion/d' ./sonar-project.properties > tmp && mv tmp sonar-project.properties
