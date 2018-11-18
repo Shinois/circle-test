@@ -39,6 +39,7 @@ jobs:
       - checkout
       - run:
           name: sonar
+          requires: build
           command: |
             sed '/sonar.projectVersion/d' ./sonar-project.properties > tmp && mv tmp sonar-project.properties
             echo sonar.projectVersion=`cat package.json | python -c "import json,sys;obj=json.load(sys.stdin);print obj['version'];"` >> sonar-project.properties
