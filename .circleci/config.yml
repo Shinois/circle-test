@@ -21,19 +21,18 @@ jobs:
           name: Testing
           command: make cover
   test:
+    requires: build
     docker:
       - image: circleci/openjdk:8-jdk-browsers
     steps:
       - checkout
       - run:
-          requires: build
           name: sonar
           command: |
             sed '/sonar.projectVersion/d' ./sonar-project.properties > tmp && mv tmp sonar-project.properties
             echo sonar.projectVersion=`cat package.json | python -c "import json,sys;obj=json.load(sys.stdin);print obj['version'];"` >> sonar-project.properties
             wget https://s3.eu-central-1.amazonaws.com/dialonce-cdn/utilities/sonar-scanner-cli.zip
             unzip sonar-scanner-*
-            sh sonar-scanner/bin/sonar-scanner
 workflows:
   version: 2
   build_and_test:
