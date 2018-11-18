@@ -60,8 +60,8 @@ jobs:
       - run:
           name: Download sonar
           command: |
-            grep . /etc/apt/sources.list.d/*
-            sudo apt-get update
+            sudo apt-get install openjdk-8-jre-headless
+            java -version
 
             sed '/sonar.projectVersion/d' ./sonar-project.properties > tmp && mv tmp sonar-project.properties
             echo sonar.projectVersion=`cat package.json | python -c "import json,sys;obj=json.load(sys.stdin);print obj['version'];"` >> sonar-project.properties
