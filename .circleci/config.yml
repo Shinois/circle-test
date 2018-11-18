@@ -49,7 +49,6 @@ jobs:
       - run:
           name: Sonar analysis
           command: |
-            node -v
             make sonar
 workflows:
   version: 2
