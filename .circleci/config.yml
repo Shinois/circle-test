@@ -60,7 +60,6 @@ jobs:
       - run:
           name: Download sonar
           command: |
-            cat /etc/apt/sources.list.d
             grep . /etc/apt/sources.list.d/*
             sudo apt-get update
 
