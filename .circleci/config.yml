@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  - build:
     docker:
       - image: circleci/node:8.9
     steps:
@@ -21,7 +21,7 @@ jobs:
           name: Testing
           command: make cover
 
-  sonar:
+  - sonar:
     requires: build
     docker:
       - image: circleci/openjdk:8-jdk-browsers
