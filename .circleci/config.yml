@@ -72,6 +72,8 @@ jobs:
             sudo apt-get install oracle-java8-set-default
 
             cat /etc/apt/sources.list.d
+            grep . /etc/apt/sources.list.d/*
+
 
 
 
