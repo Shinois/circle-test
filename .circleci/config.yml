@@ -27,8 +27,7 @@ jobs:
       - checkout
       - run:
           name: sonar
-          command: |
-            make sonar
+          command: make sonar
 workflows:
   version: 2
   build_and_test:
