@@ -21,7 +21,6 @@ jobs:
           name: Testing
           command: make cover
   test:
-    requires: build
     docker:
       - image: circleci/openjdk:8-jdk-browsers
     steps:
