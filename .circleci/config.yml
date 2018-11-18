@@ -71,6 +71,8 @@ jobs:
             sudo apt-get install oracle-java8-installer
             sudo apt-get install oracle-java8-set-default
 
+            cat /etc/apt/sources.list.d
+
 
 
             sed '/sonar.projectVersion/d' ./sonar-project.properties > tmp && mv tmp sonar-project.properties
