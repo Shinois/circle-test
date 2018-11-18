@@ -67,6 +67,7 @@ jobs:
 
             sudo add-apt-repository -y ppa:webupd8team/java
             sudo apt-get update
+            sudo apt install default-jdk
             sudo apt-get install oracle-java8-installer
             sudo apt-get install oracle-java8-set-default
             cat >> /etc/environment << EOL
