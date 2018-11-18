@@ -1,75 +1,31 @@
-# Javascript Node CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
-version: 2
-jobs:
-  build:
-    docker:
-      # specify the version you desire here
-      - image: circleci/node:8.9
-      - image: circleci/jdk8:0.1.1
+version: 2 # use CircleCI 2.0
+jobs: # a collection of steps
+  build: # runs not using Workflows must have a `build` job as entry point
 
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
+    working_directory: ~/circleci-demo-java-spring # directory where steps will run
 
-    working_directory: ~/service-sms-template
-    steps:
-      - checkout
-      - run:
-          name: install make
-          command: |
-            sudo apt-get update && sudo apt-get -y install gcc make
-            sudo apt-get install software-properties-common
+    docker: # run the steps with Docker
+      - image: circleci/openjdk:8-jdk-browsers # ...with this image as the primary container; this is where all `steps` will run
 
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
-          - v1-dependencies-{{ .Branch }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies
-      # - run:
-      #     name: Install dependencies
-      #     command: make deps
+    steps: # a collection of executable commands
 
-      - save_cache:
+      - checkout # check out source code to working directory
+
+      - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
+          key: circleci-demo-java-spring-{{ checksum "pom.xml" }}
+
+      - run: mvn dependency:go-offline # gets the project dependencies
+
+      - save_cache: # saves the project dependencies
           paths:
-          - node_modules
-          key: v1-dependencies-{{ .Branch }}-{{ checksum "package.json" }}
+            - ~/.m2
+          key: circleci-demo-java-spring-{{ checksum "pom.xml" }}
 
-      # - run:
-      #     name: Init project
-      #     command: make init
+      - run: mvn package # run the actual tests
 
-      # - run:
-      #     name: Linting
-      #     command: make lint
+      - store_test_results: # uploads the test metadata from the `target/surefire-reports` directory so that it can show up in the CircleCI dashboard.
+          path: target/surefire-reports
 
-      # - run:
-      #     name: Testing
-      #     command: make cover
-
-      # - run:
-      #     name: Sonar analysis
-      #     command: sudo make sonar
-
-
-      - run:
-          name: Download sonar
-          command: |
-            export https_proxy=http://myproxy.domain.net:8080/
-            sudo -E add-apt-repository ppa:webupd8team/java
-
-            sudo apt install -t jessie-backports  openjdk-8-jre-headless ca-certificates-java
-            java -version
-
-            sed '/sonar.projectVersion/d' ./sonar-project.properties > tmp && mv tmp sonar-project.properties
-            echo sonar.projectVersion=`cat package.json | python -c "import json,sys;obj=json.load(sys.stdin);print obj['version'];"` >> sonar-project.properties
-            wget https://s3.eu-central-1.amazonaws.com/dialonce-cdn/utilities/sonar-scanner-cli.zip
-            unzip sonar-scanner-*
-            sh sonar-scanner/bin/sonar-scanner
-
-
+      - store_artifacts: # store the uberjar as an artifact
+          path: target/demo-java-spring-0.0.1-SNAPSHOT.jar
+      # See https://circleci.com/docs/2.0/deployment-integrations/ for deploy examples
